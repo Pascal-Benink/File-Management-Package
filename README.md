@@ -22,7 +22,7 @@ pip install file-management-package
 Or put in your `requirements.txt`
 
 ```txt
-file-management-package==0.6.1
+file-management-package==0.6.2
 ```
 
 # Usage
