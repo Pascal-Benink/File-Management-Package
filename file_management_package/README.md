@@ -21,8 +21,8 @@ pip install file-management-package
 ```
 Or put in your `requirements.txt`
 
-```bash
-file-management-package==0.6.2
+```txt
+file-management-package==0.7.0
 ```
 
 # Usage
