@@ -1,7 +1,7 @@
 import os
 
 
-class FileManagement(object):
+class Filemanagement(object):
     def __init__(self):
         print("initializing File management class")
 
