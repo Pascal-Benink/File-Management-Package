@@ -22,7 +22,7 @@ pip install file-management-package
 Or put in your `requirements.txt`
 
 ```txt
-file-management-package==0.7.1
+file-management-package==0.8.0
 ```
 
 # Usage
@@ -37,7 +37,7 @@ from file_management_package.file_management import FileManagement
 1. Writing to a File:
 
 ``` python
-fm = FileManagement()
+fm = FileManagement(base_directory="/path/to/your/directory")
 fm.write_to_file("Hello, world!", "example.txt")
 ```
 This will write "Hello, world!" to the file example.txt, creating the file if it does not exist.

@@ -2,24 +2,23 @@ import os
 
 
 class FileManagement(object):
-    def __init__(self):
-        print("initializing File management class")
+    def __init__(self, base_directory):
+        print("Initializing File management class")
+        # Use the provided base_directory or default to the current working directory
+        self.base_directory = base_directory
 
     def write_to_file(self, message, file_name) -> None:
-        if file_name is not str:
+        if not isinstance(file_name, str):
             file_name = str(file_name)
 
-        print(f"writing {message} to {file_name}")
-        root = os.path.dirname(os.path.abspath(__file__))
-        real_root = root.replace("classes", "")
-        path = os.path.join("files/", file_name)
-        file_path = os.path.join(real_root, path)
+        print(f"Writing {message} to {file_name}")
+        path = os.path.join(self.base_directory, "files", file_name)
         try:
-            with open(file_path, 'a') as write_file:
+            with open(path, 'a') as write_file:
                 write_file.write(f"\n{message}")
         except FileNotFoundError as f:
-            print(f"File not found: {file_path}, error: {f}")
-            print("now creating file")
+            print(f"File not found: {path}, error: {f}")
+            print("Now creating file")
             self.create_file(file_name)
         except PermissionError as p:
             print(f"Permission error, error: {p}")
@@ -33,33 +32,26 @@ class FileManagement(object):
 
     @staticmethod
     def write_single_line_to_file(message, file_name) -> None:
-        f = open(file_name, "a")
-        f.write(message)
-        f.close()
+        with open(file_name, "a") as f:
+            f.write(message)
 
-    @staticmethod
-    def check_if_file_exists(file_name) -> bool:
-        root = os.path.dirname(os.path.abspath(__file__))
-        real_root = root.replace("classes", "")
-        path = os.path.join("files/", file_name)
-        file_path = os.path.join(real_root, path)
-        return os.path.exists(file_path)
+    def check_if_file_exists(self, file_name) -> bool:
+        if not isinstance(file_name, str):
+            file_name = str(file_name)
+        path = os.path.join(self.base_directory, "files", file_name)
+        return os.path.exists(path)
 
-    @staticmethod
-    def read_file_per_line(file_name) -> list[str]:
-        if file_name is not str:
+    def read_file_per_line(self, file_name) -> list[str]:
+        if not isinstance(file_name, str):
             file_name = str(file_name)
 
-        print(f"reading {file_name}")
-        root = os.path.dirname(os.path.abspath(__file__))
-        real_root = root.replace("classes", "")
-        path = os.path.join("files/", file_name)
-        file_path = os.path.join(real_root, path)
+        print(f"Reading {file_name}")
+        path = os.path.join(self.base_directory, "files", file_name)
         try:
-            with open(file_path, 'r') as read_file:
+            with open(path, 'r') as read_file:
                 file_lines = read_file.read().split('\n')
         except FileNotFoundError as f:
-            print(f"File not found: {file_path}, error: {f}")
+            print(f"File not found: {path}, error: {f}")
         except PermissionError as p:
             print(f"Permission error, error: {p}")
             exit(403)
@@ -75,20 +67,15 @@ class FileManagement(object):
 
         return file_lines
 
-    @staticmethod
-    def read_whole_file(file_name):
-        root = os.path.dirname(os.path.abspath(__file__))
-        real_root = root.replace("classes", "")
-        path = os.path.join("files/", file_name)
-        file_path = os.path.join(real_root, path)
+    def read_whole_file(self, file_name):
+        path = os.path.join(self.base_directory, "files", file_name)
         try:
-            with open(file_path, 'r') as read_file:
-                park = read_file.read()
-                park = park.splitlines()
-                print(f" {park}  \n")
-            return park
+            with open(path, 'r') as read_file:
+                content = read_file.read()
+                print(f"Content: {content}\n")
+            return content.splitlines()
         except FileNotFoundError as f:
-            print(f"File not found: {file_path}, error: {f}")
+            print(f"File not found: {path}, error: {f}")
         except PermissionError as p:
             print(f"Permission error, error: {p}")
             exit(403)
@@ -99,23 +86,19 @@ class FileManagement(object):
             print(f"A General exception found, error: {e}")
             exit(1)
 
-    @staticmethod
-    def create_file(file_name) -> None:
-        if file_name is not str:
+    def create_file(self, file_name) -> None:
+        if not isinstance(file_name, str):
             file_name = str(file_name)
 
-        print(f"creating {file_name}")
-        root = os.path.dirname(os.path.abspath(__file__))
-        real_root = root.replace("classes", "")
-        path = os.path.join("files/", file_name)
-        file_path = os.path.join(real_root, path)
+        print(f"Creating {file_name}")
+        path = os.path.join(self.base_directory, "files", file_name)
 
-        dir_path = file_path.replace(file_name, "")
+        dir_path = os.path.dirname(path)
         if not os.path.exists(dir_path):
             os.makedirs(dir_path)
 
         try:
-            with open(file_path, 'w'):
+            with open(path, 'w'):
                 print(f"{file_name} has been created")
         except PermissionError as p:
             print(f"Permission error, error: {p}")
@@ -127,23 +110,19 @@ class FileManagement(object):
             print(f"A General exception found, error: {e}")
             exit(1)
 
-    @staticmethod
-    def delete_file(file_name) -> None:
-        if file_name is not str:
+    def delete_file(self, file_name) -> None:
+        if not isinstance(file_name, str):
             file_name = str(file_name)
 
-        print(f"deleting {file_name}")
-        root = os.path.dirname(os.path.abspath(__file__))
-        real_root = root.replace("classes", "")
-        path = os.path.join("files/", file_name)
-        file_path = os.path.join(real_root, path)
+        print(f"Deleting {file_name}")
+        path = os.path.join(self.base_directory, "files", file_name)
 
         try:
-            if os.path.exists(file_path):
-                os.remove(file_path)
+            if os.path.exists(path):
+                os.remove(path)
                 print(f"{file_name} has been deleted")
             else:
-                print(f"{file_name} has not been there at all")
+                print(f"{file_name} does not exist")
         except PermissionError as p:
             print(f"Permission error, error: {p}")
             exit(403)
@@ -151,40 +130,29 @@ class FileManagement(object):
             print(f"IO error, error: {i}")
             exit(2)
         except Exception as e:
-            print(f"An General exception found, error: {e}")
+            print(f"A General exception found, error: {e}")
             exit(1)
 
-    @staticmethod
-    def open_file(file_name, is_sdk) -> None:
-        if file_name is not str:
+    def open_file(self, file_name, is_sdk) -> None:
+        if not isinstance(file_name, str):
             file_name = str(file_name)
-            print(f"opening {file_name}")
-            root = os.path.dirname(os.path.abspath(__file__))
-            real_root = root.replace("classes", "")
-            if not is_sdk:
-                path = os.path.join("files/", file_name)
-            else:
-                path = os.path.join("", file_name)
-            file_path = os.path.join(real_root, path)
-            os.startfile(file_path)
+        print(f"Opening {file_name}")
+        if not is_sdk:
+            path = os.path.join(self.base_directory, "files", file_name)
+        else:
+            path = os.path.join("", file_name)
+        os.startfile(path)
 
-    @staticmethod
-    def delete_from_file(file_name, what) -> None:
-        if file_name is not str:
+    def delete_from_file(self, file_name, what) -> None:
+        if not isinstance(file_name, str):
             file_name = str(file_name)
 
-        print(f"removing {what} from {file_name}")
-        root = os.path.dirname(os.path.abspath(__file__))
-        real_root = root.replace("classes", "")
-        path = os.path.join("files/", file_name)
-        file_path = os.path.join(real_root, path)
-        # Open the file in read mode
-        with open(file_path, 'r') as file:
+        print(f"Removing {what} from {file_name}")
+        path = os.path.join(self.base_directory, "files", file_name)
+        with open(path, 'r') as file:
             lines = file.readlines()
 
-        # Remove lines containing the specified string
         new_lines = [line for line in lines if what not in line]
 
-        # Open the file in write mode
-        with open(file_path, 'w') as file:
+        with open(path, 'w') as file:
             file.writelines(new_lines)

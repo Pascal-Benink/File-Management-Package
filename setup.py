@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='file-management-package',  # Make sure this name is unique on PyPI
-    version='0.7.1',  # Increment version with each release
+    version='0.8.0',  # Increment version with each release
     packages=find_packages(),  # Automatically find your package modules
 
     # Dependencies for your package
