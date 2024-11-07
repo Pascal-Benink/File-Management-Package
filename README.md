@@ -22,7 +22,7 @@ pip install file-management-package
 Or put in your `requirements.txt`
 
 ```txt
-file-management-package==0.8.0
+file-management-package==0.8.1
 ```
 
 # Usage
@@ -41,6 +41,11 @@ fm = FileManagement()
 fm.write_to_file("Hello, world!", "example.txt")
 ```
 This will write "Hello, world!" to the file example.txt, creating the file if it does not exist.
+
+If you want a custom file location you need to do this
+``` python
+fm = FileManagement(base_directory="path/to/your/folder")
+```
 
 2. ### Reading a File Line by Line:
 

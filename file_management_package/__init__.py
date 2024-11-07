@@ -2,10 +2,10 @@ import os
 
 
 class FileManagement(object):
-    def __init__(self, base_directory):
+    def __init__(self, base_directory=None):
         print("Initializing File management class")
         # Use the provided base_directory or default to the current working directory
-        self.base_directory = base_directory
+        self.base_directory = base_directory or os.path.dirname(os.path.abspath(__file__))
 
     def write_to_file(self, message, file_name) -> None:
         if not isinstance(file_name, str):
